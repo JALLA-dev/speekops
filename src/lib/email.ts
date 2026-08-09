@@ -1,6 +1,9 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResendClient() {
+  const apiKey = process.env.RESEND_API_KEY || 're_placeholder_for_build';
+  return new Resend(apiKey);
+}
 
 interface BookingEmailData {
   name: string;
@@ -12,6 +15,11 @@ interface BookingEmailData {
 }
 
 export async function sendThankYouEmail(booking: BookingEmailData) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey || apiKey.startsWith('re_YOUR_API') || apiKey === 're_dummy') {
+    throw new Error('RESEND_API_KEY environment variable is not configured.');
+  }
+  const resend = new Resend(apiKey);
   const { name, email, company, date, timeSlot, notes } = booking;
   const firstName = name.split(' ')[0];
 
