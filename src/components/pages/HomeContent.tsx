@@ -1,9 +1,17 @@
 'use client';
 
 import { useNavigation, type PageName } from '@/lib/navigation';
+import BookDemoSection from '@/components/BookDemoSection';
 
 export default function HomeContent() {
   const { navigate } = useNavigation();
+
+  const scrollToDemo = () => {
+    const el = document.getElementById('book-demo');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const features = [
     {
@@ -69,7 +77,9 @@ export default function HomeContent() {
                   <path d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" />
                 </svg>
               </button>
-              <button className="btn-secondary btn-large">Watch Demo</button>
+              <button className="btn-secondary btn-large" onClick={scrollToDemo}>
+                Book a Demo
+              </button>
             </div>
             <div className="hero-stats">
               <div className="stat-item">
@@ -122,6 +132,8 @@ export default function HomeContent() {
           </div>
         </div>
       </div>
+
+      <BookDemoSection />
     </section>
   );
 }
