@@ -20,7 +20,6 @@ export default function BookDemoSection({ isModal = false, onClose }: BookDemoSe
 
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [emailSent, setEmailSent] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
   const timeSlots = [
@@ -49,7 +48,6 @@ export default function BookDemoSection({ isModal = false, onClose }: BookDemoSe
         throw new Error(data.error || 'Failed to submit demo booking');
       }
 
-      setEmailSent(data.emailSent === true);
       setSubmitted(true);
     } catch (err: any) {
       setErrorMsg(err.message || 'Something went wrong. Please try again.');

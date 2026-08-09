@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { getDb, initDb } from '@/lib/db'
-import { sendThankYouEmail } from '@/lib/email'
 
 export async function POST(request: Request) {
   try {
@@ -25,20 +24,10 @@ export async function POST(request: Request) {
       RETURNING id, created_at;
     `
 
-    // Send thank-you confirmation email via Resend
-    let emailSent = false
-    try {
-      await sendThankYouEmail({ name, email, company, date, timeSlot, notes })
-      emailSent = true
-    } catch (emailError: any) {
-      console.error('Email send failed (booking still saved):', emailError.message)
-    }
-
     return NextResponse.json({
       success: true,
       message: 'Demo session booked successfully!',
       booking: result[0],
-      emailSent,
     })
   } catch (error: any) {
     console.error('Error saving demo booking to Neon DB:', error)
